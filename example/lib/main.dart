@@ -6,7 +6,7 @@ void main() {
     defaultText: 'Hello World!',
     translations: {'en': 'Hello World!', 'es': 'Hola Mundo!'},
   );
-  print(text.toMap());
+  print(InqusDispatcher.serialization.serialize(text));
 }
 
 class MainApp extends StatelessWidget {
