@@ -1,30 +1,34 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_inqus/src/controllers/inqus-controller/inqus_controller.dart';
+import 'package:flutter_inqus/src/interfaces/inqus/controller/inqus_controller_interface.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 class InqusControllerProvider extends SingleChildStatelessWidget {
-  const InqusControllerProvider({required Create<InqusController> create, super.key, super.child, this.lazy = true})
-    : _create = create,
-      _value = null;
+  const InqusControllerProvider({
+    required Create<InqusControllerInterface> create,
+    super.key,
+    super.child,
+    this.lazy = true,
+  }) : _create = create,
+       _value = null;
 
-  const InqusControllerProvider.value({required InqusController value, super.key, super.child})
+  const InqusControllerProvider.value({required InqusControllerInterface value, super.key, super.child})
     : _create = null,
       _value = value,
       lazy = true;
 
   final bool lazy;
 
-  final Create<InqusController>? _create;
+  final Create<InqusControllerInterface>? _create;
 
-  final InqusController? _value;
+  final InqusControllerInterface? _value;
 
-  static InqusController of(BuildContext context, {bool listen = true}) {
+  static InqusControllerInterface of(BuildContext context, {bool listen = true}) {
     try {
-      return Provider.of<InqusController>(context, listen: listen);
+      return Provider.of<InqusControllerInterface>(context, listen: listen);
     } on ProviderNotFoundException catch (e) {
-      if (e.valueType != InqusController) rethrow;
+      if (e.valueType != InqusControllerInterface) rethrow;
 
       throw FlutterError(
         'InqusControllerProvider.of() called with a context that does not contain a InqusController.\n'
@@ -39,8 +43,8 @@ class InqusControllerProvider extends SingleChildStatelessWidget {
   Widget buildWithChild(BuildContext context, Widget? child) {
     final value = _value;
     return value != null
-        ? InheritedProvider<InqusController>.value(value: value, lazy: lazy, child: child)
-        : InheritedProvider<InqusController>(
+        ? InheritedProvider<InqusControllerInterface>.value(value: value, lazy: lazy, child: child)
+        : InheritedProvider<InqusControllerInterface>(
           create: _create,
           dispose: (context, value) => value.dispose(),
           startListening: _startListening,
@@ -49,7 +53,10 @@ class InqusControllerProvider extends SingleChildStatelessWidget {
         );
   }
 
-  static VoidCallback _startListening(InheritedContext<InqusController?> context, InqusController value) {
+  static VoidCallback _startListening(
+    InheritedContext<InqusControllerInterface?> context,
+    InqusControllerInterface value,
+  ) {
     final subscription = value.stream.listen((_) => context.markNeedsNotifyDependents());
 
     return subscription.cancel;

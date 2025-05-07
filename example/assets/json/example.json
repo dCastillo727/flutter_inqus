@@ -1,0 +1,8 @@
+{
+    "title": {
+        "default": "Example JSON",
+        "en": "Example JSON",
+        "es": "Ejemplo de JSON"
+    },
+    "description": "This is an example JSON file."
+}

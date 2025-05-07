@@ -1,21 +1,35 @@
 import 'dart:async';
+import 'dart:convert';
 
-import 'package:flutter_inqus/src/entity/inqus.dart';
+import 'package:flutter_inqus/src/interfaces/inqus/controller/inqus_controller_interface.dart';
 import 'package:flutter_inqus/src/interfaces/inqus/inqus_interface.dart';
+import 'package:flutter_inqus/src/interfaces/json_origin_interface.dart';
+import 'package:flutter_inqus/src/services/dispatcher/inqus_dispatcher.dart';
 
-class InqusController {
-  InqusController() {
-    //TODO add initialization
-    _inqus = InqusEntity();
+class InqusController extends InqusControllerInterface {
+  InqusController();
+
+  late final StreamController<Inqus> _inqusController = StreamController<Inqus>.broadcast()..stream.listen(updateInqus);
+  @override
+  Stream<Inqus> get stream => _inqusController.stream;
+
+  late Inqus _inqus;
+  @override
+  Inqus get inqus => _inqus;
+
+  @override
+  Future<void> convertJson({required InqusJsonOriginInterface json}) async {
+    final data = await json.getJson();
+    //TODO remove delay
+    await Future.delayed(const Duration(seconds: 3));
+    final inqus = InqusDispatcher.serialization.deserialize<Inqus>(jsonDecode(data));
+    _inqusController.add(inqus);
   }
 
-  final StreamController<InqusInterface> _inqusController = StreamController<InqusInterface>.broadcast();
-
-  Stream<InqusInterface> get stream => _inqusController.stream;
-
-  late InqusInterface _inqus;
-
-  InqusInterface get inqus => _inqus;
-
+  @override
   void dispose() {}
+
+  void updateInqus(Inqus inqus) {
+    _inqus = inqus;
+  }
 }

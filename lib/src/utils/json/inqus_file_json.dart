@@ -8,11 +8,11 @@ class InqusFileJson implements InqusJsonOriginInterface {
   final Encoding encoding;
 
   @override
-  Future<Map<String, dynamic>> getJsonMap() async {
+  Future<String> getJson() async {
     final data = await file.readAsString(encoding: encoding);
     if (data.isEmpty) {
       throw Exception('Empty file body');
     }
-    return jsonDecode(data);
+    return jsonEncode(jsonDecode(data));
   }
 }
