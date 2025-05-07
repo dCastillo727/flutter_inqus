@@ -8,11 +8,13 @@ class InqusMemoryJson implements InqusJsonOriginInterface {
   final Encoding encoder;
 
   @override
-  Future<Map<String, dynamic>> getJsonMap() {
+  Future<String> getJson() async {
     final data = encoder.decode(bytes);
+
     if (data.isEmpty) {
       throw Exception('Empty memory body');
     }
-    return jsonDecode(data);
+
+    return jsonEncode(jsonDecode(data));
   }
 }

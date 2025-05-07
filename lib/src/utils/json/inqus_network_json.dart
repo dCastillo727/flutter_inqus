@@ -8,7 +8,7 @@ class InqusNetworkJson implements InqusJsonOriginInterface {
   final Map<String, String>? headers;
 
   @override
-  Future<Map<String, dynamic>> getJsonMap() async {
+  Future<String> getJson() async {
     final uri = Uri.tryParse(url);
     assert(uri != null, 'Invalid URL: $url');
 
@@ -19,7 +19,7 @@ class InqusNetworkJson implements InqusJsonOriginInterface {
     }
 
     if (response.statusCode == 200) {
-      return jsonDecode(response.body);
+      return jsonEncode(jsonDecode(response.body));
     } else {
       throw Exception('Failed to load JSON: ${response.statusCode} - ${response.reasonPhrase}');
     }

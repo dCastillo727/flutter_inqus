@@ -6,8 +6,8 @@ class InqusAssetJson implements InqusJsonOriginInterface {
   final String path;
 
   @override
-  Future<Map<String, dynamic>> getJsonMap() async {
+  Future<String> getJson() async {
     final data = await rootBundle.loadString(path);
-    return jsonDecode(data);
+    return jsonEncode(jsonDecode(data));
   }
 }

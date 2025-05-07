@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inqus/flutter_inqus.dart';
 
 void main() {
-  final text = TextEntity.localized(
-    defaultText: 'Hello World!',
-    translations: {'en': 'Hello World!', 'es': 'Hola Mundo!'},
-  );
-  print(InqusDispatcher.serialization.serialize(text));
+  runApp(const MainApp());
 }
 
 class MainApp extends StatelessWidget {
@@ -14,6 +10,13 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: Scaffold(body: Center(child: Text('Hello World!'))));
+    return MaterialApp(
+      home: Scaffold(
+        body: FlutterInqus(
+          controller: InqusController(), //
+          json: InqusJson.asset('assets/json/example.json'),
+        ),
+      ),
+    );
   }
 }

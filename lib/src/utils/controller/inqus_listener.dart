@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_inqus/src/controllers/inqus-controller/inqus_controller.dart';
+import 'package:flutter_inqus/src/interfaces/inqus/controller/inqus_controller_interface.dart';
 import 'package:flutter_inqus/src/interfaces/inqus/inqus_interface.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
-typedef InqusWidgetListener = void Function(BuildContext context, InqusInterface inqus);
+typedef InqusWidgetListener = void Function(BuildContext context, Inqus inqus);
 
-typedef InqusListenerCondition = bool Function(InqusInterface previous, InqusInterface current);
+typedef InqusListenerCondition = bool Function(Inqus previous, Inqus current);
 
 abstract class InqusListenerBase extends SingleChildStatefulWidget {
   const InqusListenerBase({
@@ -20,7 +20,7 @@ abstract class InqusListenerBase extends SingleChildStatefulWidget {
     this.listenWhen,
   });
 
-  final InqusController? controller;
+  final InqusControllerInterface? controller;
 
   final InqusWidgetListener listener;
 
@@ -33,23 +33,23 @@ abstract class InqusListenerBase extends SingleChildStatefulWidget {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty<InqusController?>('inqus controller', controller))
+      ..add(DiagnosticsProperty<InqusControllerInterface?>('inqus controller', controller))
       ..add(ObjectFlagProperty<InqusWidgetListener>.has('listener', listener))
       ..add(ObjectFlagProperty<InqusListenerCondition>.has('listenWhen', listenWhen));
   }
 }
 
 class _InqusListenerBaseState extends SingleChildState<InqusListenerBase> {
-  StreamSubscription<InqusInterface>? _subscription;
+  StreamSubscription<Inqus>? _subscription;
 
-  late InqusController _controller;
+  late InqusControllerInterface _controller;
 
-  late InqusInterface _previousInqus;
+  late Inqus _previousInqus;
 
   @override
   void initState() {
     super.initState();
-    _controller = widget.controller ?? context.read<InqusController>();
+    _controller = widget.controller ?? context.read<InqusControllerInterface>();
     _previousInqus = _controller.inqus;
     _subscribe();
   }
@@ -57,7 +57,7 @@ class _InqusListenerBaseState extends SingleChildState<InqusListenerBase> {
   @override
   void didUpdateWidget(covariant InqusListenerBase oldWidget) {
     super.didUpdateWidget(oldWidget);
-    final oldController = oldWidget.controller ?? context.read<InqusController>();
+    final oldController = oldWidget.controller ?? context.read<InqusControllerInterface>();
     final currentController = widget.controller ?? oldController;
     if (oldController != currentController) {
       if (_subscription != null) {
@@ -72,7 +72,7 @@ class _InqusListenerBaseState extends SingleChildState<InqusListenerBase> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final controller = widget.controller ?? context.read<InqusController>();
+    final controller = widget.controller ?? context.read<InqusControllerInterface>();
     if (_controller != controller) {
       if (_subscription != null) {
         _unsubscribe();
@@ -94,7 +94,7 @@ class _InqusListenerBaseState extends SingleChildState<InqusListenerBase> {
     assert(child != null, '${widget.runtimeType} requires a child');
 
     if (widget.controller == null) {
-      context.select<InqusController, bool>((controller) => identical(_controller, controller));
+      context.select<InqusControllerInterface, bool>((controller) => identical(_controller, controller));
     }
 
     return child!;
