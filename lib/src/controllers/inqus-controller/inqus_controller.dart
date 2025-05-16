@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_inqus/src/interfaces/inqus/controller/inqus_controller_interface.dart';
-import 'package:flutter_inqus/src/interfaces/inqus/inqus_interface.dart';
+import 'package:flutter_inqus/src/interfaces/inqus/inqus.dart';
 import 'package:flutter_inqus/src/interfaces/json_origin_interface.dart';
 import 'package:flutter_inqus/src/services/dispatcher/inqus_dispatcher.dart';
 
@@ -21,7 +21,7 @@ class InqusController extends InqusControllerInterface {
   Future<void> convertJson({required InqusJsonOriginInterface json}) async {
     final data = await json.getJson();
     //TODO remove delay
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 2));
     final inqus = InqusDispatcher.serialization.deserialize<Inqus>(jsonDecode(data));
     _inqusController.add(inqus);
   }

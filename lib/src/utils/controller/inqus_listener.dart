@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inqus/src/interfaces/inqus/controller/inqus_controller_interface.dart';
-import 'package:flutter_inqus/src/interfaces/inqus/inqus_interface.dart';
+import 'package:flutter_inqus/src/interfaces/inqus/inqus.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 

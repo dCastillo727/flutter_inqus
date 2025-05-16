@@ -3,13 +3,20 @@ import 'package:flutter_inqus/src/interfaces/serializer.dart';
 
 class TextSerializer extends Serializer<TextEntity> {
   @override
-  Map<String, String> toMap(TextEntity instance) {
-    assert(instance.translations != null, 'Translations map should not be null when converting to TextEntity map.');
+  Object toMap(TextEntity instance) {
+    if (instance.isString) {
+      return instance.defaultText;
+    }
+
     return {'default': instance.defaultText, ...instance.translations!};
   }
 
   @override
-  TextEntity fromMap(Map<String, dynamic> map) {
+  TextEntity fromMap(dynamic map) {
+    if (map is String) {
+      return TextEntity(map);
+    }
+
     final defaultText = map['default'];
 
     assert(defaultText != null, 'Default text should not be null when converting from TextEntity Map.');

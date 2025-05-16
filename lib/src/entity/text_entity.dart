@@ -15,22 +15,6 @@ class TextEntity extends InqusText {
     return translations?[languageCode] ?? defaultText;
   }
 
-  static InqusText? fromStringOrMap(dynamic value) {
-    if (value is String) {
-      return TextEntity(value);
-    }
-
-    if (value is Map<String, dynamic>) {
-      return InqusDispatcher.serialization.deserialize<InqusText>(value);
-    }
-
-    if (value == null) {
-      return null;
-    }
-
-    throw ArgumentError('Invalid value type for InqusText');
-  }
-
   static Object? toStringOrMap(InqusText? value) {
     if (value == null) {
       return null;

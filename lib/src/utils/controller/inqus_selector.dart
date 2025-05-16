@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inqus/src/interfaces/inqus/controller/inqus_controller_interface.dart';
-import 'package:flutter_inqus/src/interfaces/inqus/inqus_interface.dart';
+import 'package:flutter_inqus/src/interfaces/inqus/inqus.dart';
 import 'package:flutter_inqus/src/utils/controller/inqus_listener.dart';
 import 'package:provider/provider.dart';
 
