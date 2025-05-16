@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 abstract class Serializer<T> {
-  Map<String, dynamic> toMap(T instance);
+  Object toMap(T instance);
 
-  T fromMap(Map<String, dynamic> map);
+  T fromMap(covariant Object map);
 
   String toJson(T instance) => json.encode(toMap(instance));
 

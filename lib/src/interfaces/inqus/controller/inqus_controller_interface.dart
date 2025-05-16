@@ -1,4 +1,4 @@
-import 'package:flutter_inqus/src/interfaces/inqus/inqus_interface.dart';
+import 'package:flutter_inqus/src/interfaces/inqus/inqus.dart';
 import 'package:flutter_inqus/src/interfaces/json_origin_interface.dart';
 
 abstract class InqusControllerInterface {

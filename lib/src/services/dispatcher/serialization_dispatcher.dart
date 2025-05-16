@@ -1,19 +1,24 @@
-import 'package:flutter_inqus/src/interfaces/inqus/inqus_interface.dart';
+import 'package:flutter_inqus/src/entity/inqus_element_type.dart';
+import 'package:flutter_inqus/src/interfaces/inqus/element/inqus_element.dart';
+import 'package:flutter_inqus/src/interfaces/inqus/inqus.dart';
 import 'package:flutter_inqus/src/interfaces/inqus/inqus_text.dart';
+import 'package:flutter_inqus/src/interfaces/inqus/question/inqus_question.dart';
 import 'package:flutter_inqus/src/interfaces/serializer.dart';
-import 'package:flutter_inqus/src/utils/serializers/inqus_serializer.dart';
-import 'package:flutter_inqus/src/utils/serializers/text_serializer.dart';
+import 'package:flutter_inqus/src/utils/serializers/serializers.dart';
 
 class SerializationDispatcher {
   //TODO: Add needed serializers here
   static final defaultSerializers = <_TypeHelper<dynamic>, Serializer<dynamic>>{
-    _TypeHelper<Inqus>(): InqusSerializer(),
     _TypeHelper<InqusText>(): TextSerializer(),
+    _TypeHelper<InqusQuestionText>(): InqusQuestionTextSerializer(),
+    _TypeHelper<InqusElementType>(): InqusElementTypeSerializer(),
+    _TypeHelper<InqusElement>(): InqusElementSerializer(),
+    _TypeHelper<Inqus>(): InqusSerializer(),
   };
 
   final Map<_TypeHelper, Serializer> _serializers = defaultSerializers;
 
-  Map<String, dynamic> serialize<T>(T instance) {
+  dynamic serialize<T>(T instance) {
     final serializer = _getSerializer<T>();
 
     if (serializer == null) {
@@ -23,7 +28,7 @@ class SerializationDispatcher {
     return serializer.toMap(instance);
   }
 
-  T deserialize<T>(Map<String, dynamic> json) {
+  T deserialize<T>(dynamic json) {
     final serializer = _getSerializer<T>();
 
     if (serializer == null) {

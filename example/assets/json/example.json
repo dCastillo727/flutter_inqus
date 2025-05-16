@@ -4,5 +4,13 @@
         "en": "Example JSON",
         "es": "Ejemplo de JSON"
     },
-    "description": "This is an example JSON file."
+    "description": "This is an example JSON file.",
+    "elements": [
+        {
+            "type": "text",
+            "name": "Example Text Question",
+            "isRequired": true,
+            "readOnly": false
+        }
+    ]
 }
